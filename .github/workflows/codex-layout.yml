@@ -1,0 +1,15 @@
+name: Codex Layout
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Codex layout
+        run: bash scripts/check-codex-layout.sh

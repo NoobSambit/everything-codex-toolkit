@@ -1,30 +1,32 @@
 {
-  "name": "ecc",
-  "version": "2.0.0-rc.1",
-  "description": "Battle-tested Codex workflows — 182 shared ECC skills, production-ready MCP configs, and selective-install-aligned conventions for TDD, security scanning, code review, and autonomous development.",
+  "name": "everything-codex-toolkit",
+  "version": "2.0.0-rc.1-codex.1",
+  "description": "Codex-only toolkit of reusable skills, role prompts, workflow prompts, rules, and MCP examples adapted from Everything Claude Code.",
   "author": {
-    "name": "Affaan Mustafa",
-    "email": "me@affaanmustafa.com",
-    "url": "https://x.com/affaanmustafa"
+    "name": "NoobSambit",
+    "email": "sambitpradhan.dev2004@gmail.com",
+    "url": "https://github.com/NoobSambit"
   },
-  "homepage": "https://ecc.tools",
-  "repository": "https://github.com/affaan-m/everything-claude-code",
+  "originalAuthor": {
+    "name": "Affaan Mustafa",
+    "url": "https://github.com/affaan-m/everything-claude-code"
+  },
+  "repository": "https://github.com/NoobSambit/everything-codex-toolkit",
   "license": "MIT",
-  "keywords": ["codex", "agents", "skills", "tdd", "code-review", "security", "workflow", "automation"],
+  "keywords": ["codex", "skills", "agents", "tdd", "code-review", "security", "workflow"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Everything Claude Code",
-    "shortDescription": "182 battle-tested ECC skills plus MCP configs for TDD, security, code review, and autonomous development.",
-    "longDescription": "Everything Claude Code (ECC) is a community-maintained collection of Codex-ready skills and MCP configs evolved over 10+ months of intensive daily use. It covers TDD workflows, security scanning, code review, architecture decisions, operator workflows, and more — all in one installable plugin.",
-    "developerName": "Affaan Mustafa",
+    "displayName": "Everything Codex Toolkit",
+    "shortDescription": "Reusable Codex skills, role prompts, workflow prompts, rules, and MCP examples.",
+    "longDescription": "Everything Codex Toolkit is a Codex-only adaptation of the useful skills, agents, prompts, workflows, and rules from Everything Claude Code. Claude plugin and hook surfaces are not part of the active path.",
+    "developerName": "NoobSambit",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
-    "websiteURL": "https://ecc.tools",
     "defaultPrompt": [
-      "Use the tdd-workflow skill to write tests before implementation.",
-      "Use the security-review skill to scan for OWASP Top 10 vulnerabilities.",
-      "Use the verification-loop skill to verify correctness before shipping changes."
+      "Use the TDD workflow skill for feature work and bug fixes.",
+      "Use the security review skill for auth, secrets, input, payment, or sensitive-data changes.",
+      "Use the verification loop skill before reporting work complete."
     ]
   }
 }

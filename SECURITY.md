@@ -1,53 +1,42 @@
 # Security Policy
 
-## Supported Versions
+Everything Codex Toolkit is a local instruction and workflow toolkit.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.9.x   | :white_check_mark: |
-| 1.8.x   | :white_check_mark: |
-| < 1.8   | :x:                |
+It includes Markdown skills, prompts, rules, config examples, and setup scripts. Treat those files like code: review changes before installing them globally or copying them into a project.
 
-## Reporting a Vulnerability
+## Reporting A Vulnerability
 
-If you discover a security vulnerability in ECC, please report it responsibly.
+Do not open a public issue for a real security vulnerability.
 
-**Do not open a public GitHub issue for security vulnerabilities.**
+Report privately to the repository maintainer with:
 
-Instead, email **<security@ecc.tools>** with:
+- a clear description
+- steps to reproduce
+- affected files
+- impact
+- suggested fix, if known
 
-- A description of the vulnerability
-- Steps to reproduce
-- The affected version(s)
-- Any potential impact assessment
+## Security Scope
 
-You can expect:
+In scope:
 
-- **Acknowledgment** within 48 hours
-- **Status update** within 7 days
-- **Fix or mitigation** within 30 days for critical issues
+- setup scripts under `scripts/`
+- active Codex config examples
+- active skills, prompts, rules, and agent role prompts
+- documentation that could cause unsafe installation or credential handling
 
-If the vulnerability is accepted, we will:
+Out of active Codex scope:
 
-- Credit you in the release notes (unless you prefer anonymity)
-- Fix the issue in a timely manner
-- Coordinate disclosure timing with you
+- files under `legacy/`
+- unsupported Claude hook runtime
+- unsupported plugin manifests from other tools
 
-If the vulnerability is declined, we will explain why and provide guidance on whether it should be reported elsewhere.
+Legacy files are preserved for migration context. Do not install them for Codex unless you intentionally adapt and review them first.
 
-## Scope
+## Safe Use
 
-This policy covers:
-
-- The ECC plugin and all scripts in this repository
-- Hook scripts that execute on your machine
-- Install/uninstall/repair lifecycle scripts
-- MCP configurations shipped with ECC
-- The AgentShield security scanner ([github.com/affaan-m/agentshield](https://github.com/affaan-m/agentshield))
-
-## Security Resources
-
-- **AgentShield**: Scan your agent config for vulnerabilities — `npx ecc-agentshield scan`
-- **Security Guide**: [The Shorthand Guide to Everything Agentic Security](./the-security-guide.md)
-- **OWASP MCP Top 10**: [owasp.org/www-project-mcp-top-10](https://owasp.org/www-project-mcp-top-10/)
-- **OWASP Agentic Applications Top 10**: [genai.owasp.org](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/)
+- Never commit API keys or tokens.
+- Keep credentials in environment variables or secret managers.
+- Review `.codex/config.toml` before enabling MCP servers.
+- Do not paste private repository data into public prompts or issues.
+- Run `git diff` before committing project setup changes.

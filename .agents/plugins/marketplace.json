@@ -1,12 +1,12 @@
 {
-  "name": "ecc",
+  "name": "everything-codex-toolkit",
   "interface": {
-    "displayName": "Everything Claude Code"
+    "displayName": "Everything Codex Toolkit"
   },
   "plugins": [
     {
-      "name": "ecc",
-      "version": "2.0.0-rc.1",
+      "name": "everything-codex-toolkit",
+      "version": "2.0.0-rc.1-codex.1",
       "source": {
         "source": "local",
         "path": "../.."

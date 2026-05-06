@@ -17,7 +17,7 @@ Generate images, videos, and audio using fal.ai models via MCP.
 
 ## MCP Requirement
 
-fal.ai MCP server must be configured. Add to `~/.claude.json`:
+fal.ai MCP server must be configured. Add it to your Codex MCP config, for example `~/.codex/config.toml`:
 
 ```json
 "fal-ai": {

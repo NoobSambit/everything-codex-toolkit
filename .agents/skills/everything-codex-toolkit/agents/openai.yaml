@@ -1,0 +1,7 @@
+interface:
+  display_name: "Everything Codex Toolkit"
+  short_description: "Repo workflows for the Codex-only toolkit"
+  brand_color: "#0EA5E9"
+  default_prompt: "Use $everything-codex-toolkit to follow this repository's Codex conventions and workflows."
+policy:
+  allow_implicit_invocation: true

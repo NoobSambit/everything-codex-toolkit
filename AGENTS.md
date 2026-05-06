@@ -1,166 +1,120 @@
-# Everything Claude Code (ECC) — Agent Instructions
+# Everything Codex Toolkit Instructions
 
-This is a **production-ready AI coding plugin** providing 48 specialized agents, 182 skills, 68 commands, and automated hook workflows for software development.
+This repository is a Codex-only toolkit. Use it to provide reusable instructions, skills, role prompts, rules, and workflow prompts for OpenAI Codex.
 
-**Version:** 2.0.0-rc.1
+Do not optimize this repo for Claude, Cursor, Gemini, OpenCode, Kiro, Trae, or multi-tool support. Unsupported source material may remain under `legacy/`, but the active path is Codex only.
 
 ## Core Principles
 
-1. **Agent-First** — Delegate to specialized agents for domain tasks
-2. **Test-Driven** — Write tests before implementation, 80%+ coverage required
-3. **Security-First** — Never compromise on security; validate all inputs
-4. **Immutability** — Always create new objects, never mutate existing ones
-5. **Plan Before Execute** — Plan complex features before writing code
+1. Preserve useful content unless Codex compatibility requires a change.
+2. Prefer skills and instructions over runtime magic.
+3. Keep project instructions explicit and short enough for Codex to apply.
+4. Use tests and verification before claiming work is complete.
+5. Document limitations honestly instead of pretending Codex has Claude-only features.
 
-## Available Agents
+## Active Surfaces
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design and scalability | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code quality and maintainability | After writing/modifying code |
-| security-reviewer | Vulnerability detection | Before commits, sensitive code |
-| build-error-resolver | Fix build/type errors | When build fails |
-| e2e-runner | End-to-end Playwright testing | Critical user flows |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation and codemaps | Updating docs |
-| cpp-reviewer | C/C++ code review | C and C++ projects |
-| cpp-build-resolver | C/C++ build errors | C and C++ build failures |
-| docs-lookup | Documentation lookup via Context7 | API/docs questions |
-| go-reviewer | Go code review | Go projects |
-| go-build-resolver | Go build errors | Go build failures |
-| kotlin-reviewer | Kotlin code review | Kotlin/Android/KMP projects |
-| kotlin-build-resolver | Kotlin/Gradle build errors | Kotlin build failures |
-| database-reviewer | PostgreSQL/Supabase specialist | Schema design, query optimization |
-| python-reviewer | Python code review | Python projects |
-| java-reviewer | Java and Spring Boot code review | Java/Spring Boot projects |
-| java-build-resolver | Java/Maven/Gradle build errors | Java build failures |
-| loop-operator | Autonomous loop execution | Run loops safely, monitor stalls, intervene |
-| harness-optimizer | Harness config tuning | Reliability, cost, throughput |
-| rust-reviewer | Rust code review | Rust projects |
-| rust-build-resolver | Rust build errors | Rust build failures |
-| pytorch-build-resolver | PyTorch runtime/CUDA/training errors | PyTorch build/training failures |
-| typescript-reviewer | TypeScript/JavaScript code review | TypeScript/JavaScript projects |
+Use these folders as the active toolkit:
 
-## Agent Orchestration
+| Path | Purpose |
+|---|---|
+| `.codex/` | Codex config and role examples |
+| `.codex-plugin/` | Preview Codex plugin manifest |
+| `.agents/skills/` | Curated skill set for agent-style clients |
+| `skills/` | Main reusable skill catalog |
+| `agents/` | Specialist role prompt library |
+| `prompts/` | Workflow prompts adapted from old slash commands |
+| `rules/` | Common and language-specific project rules |
+| `contexts/` | Context presets for development, review, and research |
+| `mcp-configs/` | MCP server examples |
+| `docs/` | Codex usage and migration documentation |
 
-Use agents proactively without user prompt:
-- Complex feature requests → **planner**
-- Code just written/modified → **code-reviewer**
-- Bug fix or new feature → **tdd-guide**
-- Architectural decision → **architect**
-- Security-sensitive code → **security-reviewer**
-- Autonomous loops / loop monitoring → **loop-operator**
-- Harness config reliability and cost → **harness-optimizer**
+Do not add new active Claude plugin, hook, slash-command, or `~/.claude` assumptions.
 
-Use parallel execution for independent operations — launch multiple agents simultaneously.
+## Legacy Surfaces
 
-## Security Guidelines
+`legacy/` preserves original source material that is not active in Codex:
 
-**Before ANY commit:**
-- No hardcoded secrets (API keys, passwords, tokens)
-- All user inputs validated
-- SQL injection prevention (parameterized queries)
-- XSS prevention (sanitized HTML)
-- CSRF protection enabled
-- Authentication/authorization verified
-- Rate limiting on all endpoints
-- Error messages don't leak sensitive data
+- `legacy/unsupported-claude/`
+- `legacy/unsupported-hooks/`
+- `legacy/unsupported-other-harnesses/`
+- `legacy/original-docs/`
+- `legacy/original-examples/`
 
-**Secret management:** NEVER hardcode secrets. Use environment variables or a secret manager. Validate required secrets at startup. Rotate any exposed secrets immediately.
+You may read these files for migration context. Do not tell users to install from them for Codex.
 
-**If security issue found:** STOP → use security-reviewer agent → fix CRITICAL issues → rotate exposed secrets → review codebase for similar issues.
+## How Agents Work Here
 
-## Coding Style
+The `agents/` directory contains role prompts from the original toolkit. Treat them as reusable role text, not as automatically registered Codex subagents.
 
-**Immutability (CRITICAL):** Always create new objects, never mutate. Return new copies with changes applied.
+Codex role examples live in `.codex/agents/` and are referenced by `.codex/config.toml`.
 
-**File organization:** Many small files over few large ones. 200-400 lines typical, 800 max. Organize by feature/domain, not by type. High cohesion, low coupling.
+Use agent roles pragmatically:
 
-**Error handling:** Handle errors at every level. Provide user-friendly messages in UI code. Log detailed context server-side. Never silently swallow errors.
+- `planner` for feature plans and risky refactors
+- `code-reviewer` for correctness, security, regressions, and missing tests
+- `security-reviewer` for auth, secrets, user input, payments, and sensitive data
+- language reviewers for stack-specific review
+- build resolvers when build, typecheck, or test commands fail
+- `docs-lookup` or docs researcher behavior when current API behavior matters
 
-**Input validation:** Validate all user input at system boundaries. Use schema-based validation. Fail fast with clear messages. Never trust external data.
+## How Skills Work Here
 
-**Code quality checklist:**
-- Functions small (<50 lines), files focused (<800 lines)
-- No deep nesting (>4 levels)
-- Proper error handling, no hardcoded values
-- Readable, well-named identifiers
+Skills are reusable workflow documents. They are not magic. Codex uses them when the user or project instructions point to them.
 
-## Testing Requirements
+Prefer these skills for common work:
 
-**Minimum coverage: 80%**
+- `skills/tdd-workflow/SKILL.md`
+- `skills/security-review/SKILL.md`
+- `skills/verification-loop/SKILL.md`
+- `skills/coding-standards/SKILL.md`
+- `skills/codebase-onboarding/SKILL.md`
+- `skills/documentation-lookup/SKILL.md`
+- `skills/frontend-patterns/SKILL.md`
+- `skills/backend-patterns/SKILL.md`
 
-Test types (all required):
-1. **Unit tests** — Individual functions, utilities, components
-2. **Integration tests** — API endpoints, database operations
-3. **E2E tests** — Critical user flows
-
-**TDD workflow (mandatory):**
-1. Write test first (RED) — test should FAIL
-2. Write minimal implementation (GREEN) — test should PASS
-3. Refactor (IMPROVE) — verify coverage 80%+
-
-Troubleshoot failures: check test isolation → verify mocks → fix implementation (not tests, unless tests are wrong).
+When applying a skill, follow the substance of the file. Do not rewrite the skill unless it contains an active Claude-only instruction that would mislead Codex.
 
 ## Development Workflow
 
-1. **Plan** — Use planner agent, identify dependencies and risks, break into phases
-2. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
-3. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
-4. **Capture knowledge in the right place**
-   - Personal debugging notes, preferences, and temporary context → auto memory
-   - Team/project knowledge (architecture decisions, API changes, runbooks) → the project's existing docs structure
-   - If the current task already produces the relevant docs or code comments, do not duplicate the same information elsewhere
-   - If there is no obvious project doc location, ask before creating a new top-level file
-5. **Commit** — Conventional commits format, comprehensive PR summaries
+For feature work:
 
-## Workflow Surface Policy
+1. Inspect the repo before proposing changes.
+2. Build a short plan for complex work.
+3. Use TDD when practical.
+4. Make focused edits.
+5. Run the relevant verification commands.
+6. Review the final diff before reporting completion.
 
-- `skills/` is the canonical workflow surface.
-- New workflow contributions should land in `skills/` first.
-- `commands/` is a legacy slash-entry compatibility surface and should only be added or updated when a shim is still required for migration or cross-harness parity.
+For reviews:
 
-## Git Workflow
+1. Findings come first.
+2. Sort by severity.
+3. Cite files and line numbers.
+4. Focus on bugs, security, behavior changes, and missing tests.
+5. Avoid style-only comments unless they hide a real risk.
 
-**Commit format:** `<type>: <description>` — Types: feat, fix, refactor, docs, test, chore, perf, ci
+For docs:
 
-**PR workflow:** Analyze full commit history → draft comprehensive summary → include test plan → push with `-u` flag.
+1. Use simple English.
+2. Explain what to copy where.
+3. Separate global setup from project setup.
+4. Call out Codex limitations clearly.
 
-## Architecture Patterns
+## Security Baseline
 
-**API response format:** Consistent envelope with success indicator, data payload, error message, and pagination metadata.
+- Never hardcode secrets.
+- Validate all external input at system boundaries.
+- Use parameterized database queries.
+- Avoid leaking sensitive data in logs or error messages.
+- Review auth and authorization paths carefully.
+- Run dependency and test checks when relevant.
 
-**Repository pattern:** Encapsulate data access behind standard interface (findAll, findById, create, update, delete). Business logic depends on abstract interface, not storage mechanism.
+Codex does not use the original Claude hook runtime. Treat security enforcement as instructions plus normal repository verification.
 
-**Skeleton projects:** Search for battle-tested templates, evaluate with parallel agents (security, extensibility, relevance), clone best match, iterate within proven structure.
+## Editing Policy
 
-## Performance
-
-**Context management:** Avoid last 20% of context window for large refactoring and multi-file features. Lower-sensitivity tasks (single edits, docs, simple fixes) tolerate higher utilization.
-
-**Build troubleshooting:** Use build-error-resolver agent → analyze errors → fix incrementally → verify after each fix.
-
-## Project Structure
-
-```
-agents/          — 48 specialized subagents
-skills/          — 182 workflow skills and domain knowledge
-commands/        — 68 slash commands
-hooks/           — Trigger-based automations
-rules/           — Always-follow guidelines (common + per-language)
-scripts/         — Cross-platform Node.js utilities
-mcp-configs/     — 14 MCP server configurations
-tests/           — Test suite
-```
-
-`commands/` remains in the repo for compatibility, but the long-term direction is skills-first.
-
-## Success Metrics
-
-- All tests pass with 80%+ coverage
-- No security vulnerabilities
-- Code is readable and maintainable
-- Performance is acceptable
-- User requirements are met
+- Keep changes scoped to Codex compatibility unless the user asks otherwise.
+- Preserve skill, agent, rule, and prompt meaning wherever possible.
+- If a Claude-only behavior cannot be translated cleanly, move it to `legacy/` or document it as unsupported.
+- Do not create a multi-harness abstraction layer.

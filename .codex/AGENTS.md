@@ -1,102 +1,59 @@
-# ECC for Codex CLI
+# Codex Supplement
 
-This supplements the root `AGENTS.md` with Codex-specific guidance.
+This file supplements the root `AGENTS.md` with Codex-specific guidance.
 
-## Model Recommendations
+## Codex Entry Points
 
-| Task Type | Recommended Model |
-|-----------|------------------|
-| Routine coding, tests, formatting | GPT 5.4 |
-| Complex features, architecture | GPT 5.4 |
-| Debugging, refactoring | GPT 5.4 |
-| Security review | GPT 5.4 |
+- Project instructions: `AGENTS.md`
+- Project config example: `.codex/config.toml`
+- Role examples: `.codex/agents/*.toml`
+- Reusable skills: `skills/*/SKILL.md`
+- Workflow prompts: `prompts/*.md`
 
-## Skills Discovery
+## Recommended Defaults
 
-Skills are auto-loaded from `.agents/skills/`. Each skill contains:
-- `SKILL.md` — Detailed instructions and workflow
-- `agents/openai.yaml` — Codex interface metadata
+Use the current Codex default model unless a project has a clear reason to pin one.
 
-Available skills:
-- tdd-workflow — Test-driven development with 80%+ coverage
-- security-review — Comprehensive security checklist
-- coding-standards — Universal coding standards
-- frontend-patterns — React/Next.js patterns
-- frontend-slides — Viewport-safe HTML presentations and PPTX-to-web conversion
-- article-writing — Long-form writing from notes and voice references
-- content-engine — Platform-native social content and repurposing
-- market-research — Source-attributed market and competitor research
-- investor-materials — Decks, memos, models, and one-pagers
-- investor-outreach — Personalized investor outreach and follow-ups
-- backend-patterns — API design, database, caching
-- e2e-testing — Playwright E2E tests
-- eval-harness — Eval-driven development
-- strategic-compact — Context management
-- api-design — REST API design patterns
-- verification-loop — Build, test, lint, typecheck, security
-- deep-research — Multi-source research with firecrawl and exa MCPs
-- exa-search — Neural search via Exa MCP for web, code, and companies
-- claude-api — Anthropic Claude API patterns and SDKs
-- x-api — X/Twitter API integration for posting, threads, and analytics
-- crosspost — Multi-platform content distribution
-- fal-ai-media — AI image/video/audio generation via fal.ai
-- dmux-workflows — Multi-agent orchestration with dmux
+Use these runtime defaults for normal project work:
 
-## MCP Servers
+- approval policy: ask before risky actions
+- sandbox: workspace write
+- network: disabled or approval-gated unless the task needs current information
+- verification: run the smallest relevant command first, then broader checks when needed
 
-Treat the project-local `.codex/config.toml` as the default Codex baseline for ECC. The current ECC baseline enables GitHub, Context7, Exa, Memory, Playwright, and Sequential Thinking; add heavier extras in `~/.codex/config.toml` only when a task actually needs them.
+## MCP Guidance
 
-ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher package remains `@upstash/context7-mcp`; only the TOML section name is normalized for consistency with `codex mcp list` and the reference config.
+MCP servers are optional. Enable only the servers a project actually needs.
 
-### Automatic config.toml merging
+Good default candidates:
 
-The sync script (`scripts/sync-ecc-to-codex.sh`) uses a Node-based TOML parser to safely merge ECC MCP servers into `~/.codex/config.toml`:
+- GitHub for issue and PR work
+- Context7 or official docs lookup for current framework/API docs
+- Playwright for browser and E2E workflows
+- Exa or web search for source-attributed research
+- Memory only when the user wants persistent cross-session notes
 
-- **Add-only by default** — missing ECC servers are appended; existing servers are never modified or removed.
-- **7 managed servers** — Supabase, Playwright, Context7, Exa, GitHub, Memory, Sequential Thinking.
-- **Canonical naming** — ECC manages Context7 as `[mcp_servers.context7]`; legacy `[mcp_servers.context7-mcp]` entries are treated as aliases during updates.
-- **Package-manager aware** — uses the project's configured package manager (npm/pnpm/yarn/bun) instead of hardcoding `pnpm`.
-- **Drift warnings** — if an existing server's config differs from the ECC recommendation, the script logs a warning.
-- **`--update-mcp`** — explicitly replaces all ECC-managed servers with the latest recommended config (safely removes subtables like `[mcp_servers.supabase.env]`).
-- **User config is always preserved** — custom servers, args, env vars, and credentials outside ECC-managed sections are never touched.
+Do not assume credentials exist. If a server requires an API key or login, document the needed environment variable instead of embedding credentials.
 
-## External Action Boundaries
+## Multi-Agent Guidance
 
-Treat networked tools as read-only by default. Search, inspect, and draft freely within the user's requested scope, but require explicit user approval before posting, publishing, pushing, merging, opening paid jobs, dispatching remote agents, changing third-party resources, or modifying credentials.
+Codex can use role-based parallel work in supported clients. This repository provides examples only:
 
-When approval is ambiguous, produce a local plan or draft artifact instead of taking the external action. Preserve user config and private state unless the user specifically asks for a scoped change.
+- `.codex/agents/explorer.toml`
+- `.codex/agents/reviewer.toml`
+- `.codex/agents/docs-researcher.toml`
 
-## Multi-Agent Support
+Use parallel agents only when the subtasks are independent. Do not use multi-agent work as a substitute for reading the repo.
 
-Codex now supports multi-agent workflows behind the experimental `features.multi_agent` flag.
+## Differences From Claude Code
 
-- Enable it in `.codex/config.toml` with `[features] multi_agent = true`
-- Define project-local roles under `[agents.<name>]`
-- Point each role at a TOML layer under `.codex/agents/`
-- Use `/agent` inside Codex CLI to inspect and steer child agents
+| Original Claude surface | Codex replacement |
+|---|---|
+| `CLAUDE.md` | `AGENTS.md` |
+| Claude plugin manifest | `.codex-plugin/plugin.json` preview manifest |
+| Slash commands | `prompts/*.md` workflow prompts |
+| Claude hooks | manual verification, git hooks, CI, and instructions |
+| `~/.claude` install | `~/.codex` global files or project-local files |
+| Claude subagent definitions | role prompt library plus `.codex/agents/*.toml` examples |
 
-Sample role configs in this repo:
-- `.codex/agents/explorer.toml` — read-only evidence gathering
-- `.codex/agents/reviewer.toml` — correctness/security review
-- `.codex/agents/docs-researcher.toml` — API and release-note verification
-
-## Key Differences from Claude Code
-
-| Feature | Claude Code | Codex CLI |
-|---------|------------|-----------|
-| Hooks | 8+ event types | Not yet supported |
-| Context file | CLAUDE.md + AGENTS.md | AGENTS.md only |
-| Skills | Skills loaded via plugin | `.agents/skills/` directory |
-| Commands | `/slash` commands | Instruction-based |
-| Agents | Subagent Task tool | Multi-agent via `/agent` and `[agents.<name>]` roles |
-| Security | Hook-based enforcement | Instruction + sandbox |
-| MCP | Full support | Supported via `config.toml` and `codex mcp add` |
-
-## Security Without Hooks
-
-Since Codex lacks hooks, security enforcement is instruction-based:
-1. Always validate inputs at system boundaries
-2. Never hardcode secrets — use environment variables
-3. Run `npm audit` / `pip audit` before committing
-4. Review `git diff` before every push
-5. Use `sandbox_mode = "workspace-write"` in config
+Do not claim exact parity where Codex has no equivalent feature.
