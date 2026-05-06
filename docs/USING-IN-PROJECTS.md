@@ -2,6 +2,12 @@
 
 This guide explains how to use Everything Codex Toolkit in real projects.
 
+If you are trying to decide which skill, agent, or prompt to use, read these next:
+
+- [Toolkit Manual](TOOLKIT-MANUAL.md) explains the mental model and how the parts fit together.
+- [Feature Catalog](FEATURE-CATALOG.md) lists every active skill, agent, prompt, and surface.
+- [Workflow Playbook](WORKFLOW-PLAYBOOK.md) gives copy-paste workflows for common jobs.
+
 The short version:
 
 - Install shared material globally if you want Codex to know this toolkit across many repos.

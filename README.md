@@ -199,6 +199,9 @@ The original files are preserved under `legacy/`, but they are not part of the C
 
 ## More Docs
 
+- [Full toolkit manual](docs/TOOLKIT-MANUAL.md)
+- [Feature catalog: every skill, agent, prompt, and active surface](docs/FEATURE-CATALOG.md)
+- [Workflow playbook: what to use for common jobs](docs/WORKFLOW-PLAYBOOK.md)
 - [Use this toolkit in other projects](docs/USING-IN-PROJECTS.md)
 - [Migration from the Claude version](docs/MIGRATION-FROM-CLAUDE.md)
 - [Codex limitations and differences](docs/CODEX-LIMITATIONS.md)
