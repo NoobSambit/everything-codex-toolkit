@@ -156,10 +156,10 @@ create_global_block() {
     printf 'Use the shared toolkit installed at `%s/everything-codex`.\n\n' "$CODEX_HOME"
     printf 'Prefer project `AGENTS.md` first. Use toolkit skills, prompts, and rules when they fit the task.\n\n'
     printf 'Useful shared paths:\n\n'
-    printf '- `%s/everything-codex/skills/`\n' "$CODEX_HOME"
-    printf '- `%s/everything-codex/agents/`\n' "$CODEX_HOME"
-    printf '- `%s/everything-codex/prompts/`\n' "$CODEX_HOME"
-    printf '- `%s/everything-codex/rules/`\n' "$CODEX_HOME"
+    printf '%s\n' "- \`$CODEX_HOME/everything-codex/skills/\`"
+    printf '%s\n' "- \`$CODEX_HOME/everything-codex/agents/\`"
+    printf '%s\n' "- \`$CODEX_HOME/everything-codex/prompts/\`"
+    printf '%s\n' "- \`$CODEX_HOME/everything-codex/rules/\`"
   } > "$out"
 }
 
