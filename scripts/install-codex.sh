@@ -4,12 +4,14 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  bash scripts/install-codex.sh --global [--dry-run]
+  bash scripts/install-codex.sh --global [--register-skills] [--dry-run]
   bash scripts/install-codex.sh --project /path/to/project [--dry-run]
 
 Options:
   --global        Install shared toolkit files under ~/.codex/everything-codex
   --project PATH  Copy a small Codex starter set into one project
+  --register-skills
+                  Also copy all toolkit skills into ~/.codex/skills so Codex can discover them
   --dry-run       Print actions without writing files
   --help          Show this help
 EOF
@@ -21,6 +23,7 @@ CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 MODE=""
 PROJECT_PATH=""
 DRY_RUN=0
+REGISTER_SKILLS=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -39,6 +42,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --dry-run)
       DRY_RUN=1
+      shift
+      ;;
+    --register-skills)
+      REGISTER_SKILLS=1
       shift
       ;;
     --help|-h)
@@ -160,6 +167,7 @@ create_global_block() {
     printf '%s\n' "- \`$CODEX_HOME/everything-codex/agents/\`"
     printf '%s\n' "- \`$CODEX_HOME/everything-codex/prompts/\`"
     printf '%s\n' "- \`$CODEX_HOME/everything-codex/rules/\`"
+    printf '\nRegistered Codex skills, when installed with `--register-skills`, live under `%s/skills/`.\n' "$CODEX_HOME"
   } > "$out"
 }
 
@@ -198,6 +206,26 @@ install_global() {
   copy_dir "$REPO_ROOT/mcp-configs" "$dest/mcp-configs"
   copy_dir "$REPO_ROOT/.codex/agents" "$dest/.codex/agents"
   copy_file "$REPO_ROOT/.codex/config.toml" "$CODEX_HOME/config.everything-codex.example.toml"
+
+  if [[ "$REGISTER_SKILLS" -eq 1 ]]; then
+    log "Registering toolkit skills in $CODEX_HOME/skills"
+    run mkdir -p "$CODEX_HOME/skills"
+    for skill_dir in "$REPO_ROOT"/skills/*; do
+      [[ -d "$skill_dir" ]] || continue
+      [[ -f "$skill_dir/SKILL.md" ]] || continue
+
+      local skill_name
+      skill_name="$(basename "$skill_dir")"
+      local skill_dest="$CODEX_HOME/skills/$skill_name"
+
+      if [[ -e "$skill_dest" ]]; then
+        log "Skipping existing skill: $skill_dest"
+        continue
+      fi
+
+      copy_dir "$skill_dir" "$skill_dest"
+    done
+  fi
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
     log "Would create temporary global instruction block"

@@ -24,12 +24,21 @@ Run this from the toolkit repo:
 bash scripts/install-codex.sh --global
 ```
 
+If you want the skills to appear in the Codex CLI skill picker, use:
+
+```bash
+bash scripts/install-codex.sh --global --register-skills
+```
+
+This keeps the shared toolkit folder and also copies every toolkit skill into `~/.codex/skills/`. That is the folder Codex normally scans for globally installed skills.
+
 This creates:
 
 ```text
 ~/.codex/
 |-- AGENTS.md
 |-- config.everything-codex.example.toml
+|-- skills/                         # created or extended when --register-skills is used
 `-- everything-codex/
     |-- skills/
     |-- agents/
@@ -45,6 +54,7 @@ What happens after global setup:
 - Codex can read the marked toolkit block in `~/.codex/AGENTS.md`.
 - Your project instructions still come first when a project has its own `AGENTS.md`.
 - The full skills, agents, rules, and prompts are available as shared reference files.
+- If you used `--register-skills`, the skills also appear in Codex's global skill discovery folder.
 
 Global setup is useful when you work across many repos and want one common toolkit library.
 

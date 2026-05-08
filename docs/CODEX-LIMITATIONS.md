@@ -74,6 +74,12 @@ bash scripts/install-codex.sh --global
 bash scripts/install-codex.sh --project /path/to/project
 ```
 
+Use this variant if you also want the skills to appear in the Codex CLI skill picker:
+
+```bash
+bash scripts/install-codex.sh --global --register-skills
+```
+
 If your Codex client supports local plugin installation, you can experiment with the manifest. If it does not, use the manual setup.
 
 ## Skills Are Markdown Workflows

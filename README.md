@@ -84,6 +84,14 @@ bash scripts/install-codex.sh --global
 
 That installs reusable toolkit files under `~/.codex/everything-codex/` and merges a marked instruction block into `~/.codex/AGENTS.md`.
 
+If you want the toolkit skills to appear in the Codex CLI skill picker, register them too:
+
+```bash
+bash scripts/install-codex.sh --global --register-skills
+```
+
+That also copies the toolkit skills into `~/.codex/skills/`, which is the normal global skill discovery folder.
+
 To preview without writing:
 
 ```bash
@@ -142,7 +150,7 @@ Use this rule of thumb:
 | `.codex/agents/` | Optional | Optional | Multi-agent role examples |
 | `rules/common/` | Yes | Optional | Baseline coding rules |
 | `rules/<language>/` | Yes, only for your stack | Optional | Language guidance |
-| `skills/` | Usually no | Yes or reference from docs | Large reusable skill catalog |
+| `skills/` | Usually no | Yes; use `--register-skills` for CLI picker discovery | Large reusable skill catalog |
 | `agents/` | Usually no | Yes or reference from docs | Role prompt library |
 | `prompts/` | Optional | Yes | Reusable workflow prompts |
 | `legacy/` | No | No | Preserved unsupported source material |

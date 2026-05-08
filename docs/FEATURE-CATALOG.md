@@ -345,6 +345,7 @@ They are plain prompts, not Claude slash commands. Ask Codex to use the prompt f
 | `.codex/agents/` | You want Codex multi-agent role examples where supported. |
 | `.codex-plugin/plugin.json` | You want to package or inspect this as a Codex plugin where supported. |
 | `.agents/skills/` | You want the small curated skill surface used by some agent-style clients. |
+| `~/.codex/skills/` | You want Codex CLI global skill picker discovery. Use `scripts/install-codex.sh --global --register-skills`. |
 | `rules/` | You want stable coding standards and reusable project rules. |
 | `contexts/dev.md` | You want implementation mode guidance. |
 | `contexts/research.md` | You want investigation mode guidance. |
@@ -390,4 +391,3 @@ First map the repo. Then recommend the smallest next step.
 ```
 
 The catalog is a menu. Pick the useful items for the current job.
-

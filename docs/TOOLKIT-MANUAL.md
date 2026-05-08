@@ -91,6 +91,14 @@ Use the install helper:
 bash scripts/install-codex.sh --global
 ```
 
+If you want the skills to appear in the Codex CLI skill picker, use:
+
+```bash
+bash scripts/install-codex.sh --global --register-skills
+```
+
+This installs the shared toolkit under `~/.codex/everything-codex/` and also registers the skills under `~/.codex/skills/`.
+
 Preview first:
 
 ```bash
@@ -136,6 +144,8 @@ Usually avoid copying:
 - all `mcp-configs/`
 
 Instead, install the toolkit globally and reference the needed files from the toolkit repository.
+
+If you use `--register-skills`, the skill files are also copied into `~/.codex/skills/` so Codex can discover them as global skills. Existing skill folders are not overwritten by the installer.
 
 ## How To Ask Codex To Use A Skill
 
@@ -456,4 +466,3 @@ Unsupported or different:
 - Skills and agents are not automatically selected unless your Codex environment supports that behavior or you ask for them.
 
 The honest workflow is simple: keep stable instructions in `AGENTS.md`, then explicitly tell Codex which skill, agent, prompt, rule, or context to use.
-
